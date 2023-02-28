@@ -8,6 +8,7 @@ import { ERROR_PROF, PROFESSOR } from './professor';
 import { useState } from 'react';
 import { Input } from '../../components/Input';
 import { api } from '../../services/api';
+import { ErrorMensagem } from '../../components/mensagem/ErrorMensagem';
 
 const Incluir = () => {
    const [erro, setErro] = useState(ERROR_PROF);
@@ -16,16 +17,58 @@ const Incluir = () => {
    const [codigoProfessor, setCodProfessor] = useState('');
    const [nomeProfessor, setNomeProfessor] = useState('');
    const [idCidade, setIdCidade] = useState('');
+   const [cidades, setCidades] = useState([])
 
 
    useEffect(() => {
       async function getCidades() {
-         try{
-            const response = await api.get('/')
+         try {
+         
+            const data = [
+               {
+                  nome: 'Araçatuba',
+                  id: 1
+               },
+               {
+                  nome: 'Birigui',
+                  id: 2
+               },
+               {
+                  nome: 'Catanduva',
+                  id: 3
+               }
+            ]
+            setCidades(data)
          }catch{}
       }
       getCidades()
    }, [])
+
+   const handleEnviar = async (e) => {
+    e.preventDefault()
+      // const data ={
+      //    cidade: {
+      //       idCidade
+      //    },
+      //    idProfessor,
+      //    nomeProfessor,
+      //    codigoProfessor
+      // }
+
+         if(idProfessor.length === 0) {
+            erro.idProfessor = 'O ID do professor deve ser informado!'
+         }
+
+         if(codigoProfessor.length === 0) {
+            erro.codProfessor = 'O Codigo do professor deve ser informado!'
+         }
+         if(nomeProfessor.length === 0) {
+            erro.nomeProfessor = 'O Nome do professor deve ser informado!'
+         }
+         if (idCidade.length === 0) {
+            erro.cidade = 'A cidade do professor deve ser informada!'
+         }
+   }
 
    return (
     <Fragment>
@@ -37,75 +80,59 @@ const Incluir = () => {
             url="/professor/lista"
             tituloUrl="Página Principal"
          />
-         <div className="row justify-content-center">
-         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-8">
-            <div className="cadastro">
-               
-               <form className='mt-3'>
+            <div className="row justify-content-center">
+               <div className="col-xs-12 col-sm-12 col-md-12 col-lg-8">
+                  <div className="cadastro">
+                  <form className='mt-3' onSubmit={(e) => handleEnviar(e)}>
+                     <Input 
+                           erro={erro.idProfessor}
+                           id={'idProfessor'}
+                           setState={setIdProfessor}
+                           value={idProfessor}
+                           title={'Id'}
+                     >
+                        <ErrorMensagem mensagem={erro.idProfessor} />
+                     </Input>
 
-                  
-                   <Input 
-                        erro={erro.idProfessor}
-                        id={'idProfessor'}
-                        setState={setIdProfessor}
-                        value={idProfessor}
-                        title={'Id'}
-                  />
-                  <Input 
-                        erro={erro.codProfessor}
-                        id={'codProfessor'}
-                        setState={setCodProfessor}
-                        value={codigoProfessor}
-                        title={'Código'}
-                  />
+                     <Input 
+                           erro={erro.codProfessor}
+                           id={'codProfessor'}
+                           setState={setCodProfessor}
+                           value={codigoProfessor}
+                           title={'Código'}
+                     >
+                        <ErrorMensagem mensagem={erro.codProfessor} />
+                     </Input>
 
-                  <Input 
-                        erro={erro.nomeProfessor}
-                        id={'nomeProfessor'}
-                        setState={setNomeProfessor}
-                        value={nomeProfessor}
-                        title={'Nome'}
-                  />
+                     <Input 
+                           erro={erro.nomeProfessor}
+                           id={'nomeProfessor'}
+                           setState={setNomeProfessor}
+                           value={nomeProfessor}
+                           title={'Nome'}
+                     >
+                        <ErrorMensagem mensagem={erro.nomeProfessor} />
+                     </Input>
 
-                  <div className='row mb-3'>
-                       <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                           <div className='form-group'>
-                               <label htmlFor='idCidade' className='control-label'>Cidade:</label>
-                               <select className="form-control"
-                                      id='idCidade'
-                                      name='idCidade'
-                                      onChange={(e)=>setIdCidade(e.target.value)}
-                                      value={idCidade} > 
-                                      <option>Birigui</option>
-                                      <option>Araçatuba</option>
-                                      <option>Coroados</option>
-                                      <option>Bilac</option>  
-                               </select>          
-                           </div>
-                        </div> 
-                  </div> 
+                     <Input 
+                           erro={erro.cidade}
+                           id={'idCidade'}
+                           setState={setIdCidade}
+                           value={idCidade}
+                           title={'Cidade'}
+                           type='select'
+                           options={cidades}
+                     >
+                        <ErrorMensagem mensagem={erro.cidade} />
+                     </Input>
 
-                  <div>
-                       <button 
-                          className='btn btn-primary btn-lg'
-                       >Salvar</button>
-                       <Link 
-                          to='/professor/lista'
-                          type='button'
-                          className='btn btn-secondary btn-lg'
-                       >Cancelar</Link>
-                  </div> 
-
-
-
-
-               </form>
-
-
+                     <div style={{display: 'flex', gap: '1rem'}}>
+                        <button type='submit' className='btn btn-primary btn-lg'>Salvar</button>
+                        <Link to='/professor/lista' type='button' className='btn btn-secondary btn-lg'>Cancelar</Link>
+                     </div>
+                  </form>
+               </div>
             </div>
-
-         </div>
-
          </div> 
        </div>
     </Fragment>

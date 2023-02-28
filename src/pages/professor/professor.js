@@ -6,8 +6,8 @@ export const PROFESSOR = {
 }
 
 export const ERROR_PROF = {
-    idProfessor: true,
-    codProfessor: false,
-    nomeProfessor: false,
-    cidade: false
+    idProfessor: '',
+    codProfessor: '',
+    nomeProfessor: '',
+    cidade: ''
 }
