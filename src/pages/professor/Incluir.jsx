@@ -1,5 +1,5 @@
 
-import React, { Fragment } from 'react'
+import React, { Fragment, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import * as FaIcons from 'react-icons/fa';
 import * as GiIcons from 'react-icons/gi';
@@ -7,6 +7,7 @@ import ShowMensagem from '../../components/mensagem/ShowMensagem';
 import { ERROR_PROF, PROFESSOR } from './professor';
 import { useState } from 'react';
 import { Input } from '../../components/Input';
+import { api } from '../../services/api';
 
 const Incluir = () => {
    const [erro, setErro] = useState(ERROR_PROF);
@@ -15,6 +16,16 @@ const Incluir = () => {
    const [codigoProfessor, setCodProfessor] = useState('');
    const [nomeProfessor, setNomeProfessor] = useState('');
    const [idCidade, setIdCidade] = useState('');
+
+
+   useEffect(() => {
+      async function getCidades() {
+         try{
+            const response = await api.get('/')
+         }catch{}
+      }
+      getCidades()
+   }, [])
 
    return (
     <Fragment>
@@ -32,52 +43,29 @@ const Incluir = () => {
                
                <form className='mt-3'>
 
-                  <div className='row mb-3'>
-                       <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                           <div className='form-group'>
-                               <label htmlFor='idProfessor' className='control-label'>Id:</label>
-                               <input 
-                                      onChange={(e)=> setIdProfessor(e.target.value)}
-                                      className={erro.idProfessor ? 'form-control is-invalid' : "form-control"}
-                                      id='idProfessor'
-                                      name='idProfessor'
-                                      value={idProfessor} /> 
-                           </div>
-                        </div> 
-                  </div> 
-                  {/* <Input 
+                  
+                   <Input 
                         erro={erro.idProfessor}
                         id={'idProfessor'}
                         setState={setIdProfessor}
                         value={idProfessor}
                         title={'Id'}
-                  /> */}
-                  <div className='row mb-3'>
-                       <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                           <div className='form-group'>
-                               <label htmlFor='codProfessor' className='control-label'>Código:</label>
-                               <input 
-                                onChange={(e)=>setCodProfessor(e.target.value)}
-                                className={erro.codProfessor ? 'form-control is-invalid' : "form-control"}
-                                      id='codProfessor'
-                                      name='codProfessor'
-                                      value={codigoProfessor} /> 
-                           </div>
-                        </div> 
-                  </div> 
-                  <div className='row mb-3'>
-                       <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                           <div className='form-group'>
-                               <label htmlFor='nomeProfessor' className='control-label'>Nome:</label>
-                               <input  
-                                      className={erro.nomeProfessor ? 'form-control is-invalid' : "form-control"}
-                                      onChange={ (e) => setNomeProfessor(e.target.value)}
-                                      id='nomeProfessor'
-                                      name='nomeProfessor'
-                                      value={nomeProfessor} /> 
-                           </div>
-                        </div> 
-                  </div> 
+                  />
+                  <Input 
+                        erro={erro.codProfessor}
+                        id={'codProfessor'}
+                        setState={setCodProfessor}
+                        value={codigoProfessor}
+                        title={'Código'}
+                  />
+
+                  <Input 
+                        erro={erro.nomeProfessor}
+                        id={'nomeProfessor'}
+                        setState={setNomeProfessor}
+                        value={nomeProfessor}
+                        title={'Nome'}
+                  />
 
                   <div className='row mb-3'>
                        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
