@@ -23,6 +23,9 @@ const Incluir = () => {
    useEffect(() => {
       async function getCidades() {
          try {
+
+            const response = await api.get('/cidade/lista')
+            console.log(response)
          
             const data = [
                {
@@ -39,7 +42,9 @@ const Incluir = () => {
                }
             ]
             setCidades(data)
-         }catch{}
+         }catch(error){
+            console.log(error)
+         }
       }
       getCidades()
    }, [])

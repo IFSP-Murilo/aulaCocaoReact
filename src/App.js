@@ -6,6 +6,7 @@ import Rotas from './rotas/Rotas';
 import Dashboard from './pages/Dashboard';
 import Lista from './pages/professor/Lista';
 import Incluir from './pages/professor/Incluir';
+import IncluirCidade from './pages/cidade/Incluir';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/home" element={<Dashboard/>} /> 
           <Route path="/professor/lista" element={<Lista/>}/>
           <Route path="/professor/incluir" element={<Incluir/>}/>
+          <Route path="/cidade/incluir" element={<IncluirCidade/>}/>
         </Route>        
         </>
       </Routes>  
