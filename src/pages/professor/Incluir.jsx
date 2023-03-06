@@ -24,24 +24,17 @@ const Incluir = () => {
       async function getCidades() {
          try {
 
-            const response = await api.get('/cidade/lista')
-            console.log(response)
-         
-            const data = [
-               {
-                  nome: 'Araçatuba',
-                  id: 1
-               },
-               {
-                  nome: 'Birigui',
-                  id: 2
-               },
-               {
-                  nome: 'Catanduva',
-                  id: 3
-               }
-            ]
-            setCidades(data)
+            const {data} = await api.get('/cidade/lista')
+            console.log(data)
+
+            const dataArray = []
+
+            data.map(res => dataArray.push({
+               id: res.idCidade,
+               nome: res.nomeCidade
+            }))
+            
+            setCidades(dataArray)
          }catch(error){
             console.log(error)
          }
