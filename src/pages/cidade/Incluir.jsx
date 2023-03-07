@@ -1,14 +1,15 @@
 
 import React, { Fragment, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import * as FaIcons from 'react-icons/fa';
 import * as GiIcons from 'react-icons/gi';
 import ShowMensagem from '../../components/mensagem/ShowMensagem';
-import { ERROR_PROF, PROFESSOR } from './professor';
+import { ERROR_PROF } from './professor';
 import { useState } from 'react';
 import { Input } from '../../components/Input';
 import { api } from '../../services/api';
 import { ErrorMensagem } from '../../components/mensagem/ErrorMensagem';
+import { toast } from 'react-toastify';
 
 const IncluirCidade = () => {
    const [erro, setErro] = useState(ERROR_PROF);
@@ -17,35 +18,7 @@ const IncluirCidade = () => {
    const [nomeCidade, setNomeCidade] = useState('');
    const [idCidade, setIdCidade] = useState('');
 
-
-   // useEffect(() => {
-   //    async function getCidades() {
-   //       try {
-
-   //          const response = await api.get('/cidade/lista')
-   //          console.log(response)
-         
-   //          const data = [
-   //             {
-   //                nome: 'Araçatuba',
-   //                id: 1
-   //             },
-   //             {
-   //                nome: 'Birigui',
-   //                id: 2
-   //             },
-   //             {
-   //                nome: 'Catanduva',
-   //                id: 3
-   //             }
-   //          ]
-   //          setCidades(data)
-   //       }catch(error){
-   //          console.log(error)
-   //       }
-   //    }
-   //    getCidades()
-   // }, [])
+   const notify = () => toast("Wow so easy!");
 
    const handleEnviar = async (e) => {
     e.preventDefault()
@@ -56,7 +29,11 @@ const IncluirCidade = () => {
       }
 
         try{
-         const response = await api.post('/cidade/incluir', data)
+         const {data} = await api.post('/cidade/incluir', data)
+         if(data.status == 200){
+            toast.success('Cidade cadastrada com sucesso!')
+            return <Navigate to='/cidade/lista' />
+         }
          console.log(response)
         } catch(error) {
          console.log(error)
@@ -73,6 +50,7 @@ const IncluirCidade = () => {
             url="/professor/lista"
             tituloUrl="Página Principal"
          />
+         <button onClick={notify}>Notify!</button>
             <div className="row justify-content-center">
                <div className="col-xs-12 col-sm-12 col-md-12 col-lg-8">
                   <div className="cadastro">
